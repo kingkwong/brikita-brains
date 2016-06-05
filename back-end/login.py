@@ -23,12 +23,21 @@ fromQS = cgi.FieldStorage()
 username = fromQS["username"].value
 password = fromQS["password"].value
 
-upoDict = csvToDict("../Documents/user-pass.txt") 
+upoDict = csvToDict("../brikita-user-password-owner.csv") 
 
 if upoDict[username][0] == password:
-    fo = open("../Documents/hiddenData.txt", "rU")
-    data = fo.read()
-    fo.close()
-    print "Hello " + upoDict[username][1] + "<br>" + data
+    templateRead = open("template.txt", "rU")
+    template = templateRead.read()
+    templateRead.close()
+    
+    outputHtml = template.replace("TITLE", "success")\
+                         .replace("BODY", "<h1>Your login was successful</h1><a href='http://homer.stuy.edu/~nikita.borisov/BrikitaBrains.html'>Home</a>")
+    print outputHtml
 else:
-    print "sorry your username or password isn't correct"
+    templateRead = open("template.txt", "rU")
+    template = templateRead.read()
+    templateRead.close()
+    
+    outputHtml = template.replace("TITLE", "error")\
+                         .replace("BODY", "<h1>Your username or password is incorrect</h1><a href='http://homer.stuy.edu/~nikita.borisov/BrikitaLogin.html'>Back</a>")
+    print outputHtml

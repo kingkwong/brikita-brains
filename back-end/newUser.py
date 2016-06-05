@@ -14,7 +14,7 @@ rpassword = fromQS["rpassword"].value
 
 if rpassword == password:
     inputString = "\n" + username + "," + password + "," + owner 
-    dest = open("../brikita-passwords.csv", "a", 0)
+    dest = open("../brikita-user-password-owner.csv", "a", 0)
     dest.write(inputString)
     dest.close()
     
@@ -23,7 +23,7 @@ if rpassword == password:
     templateRead.close()
     
     outputHtml = template.replace("TITLE", "success")\
-                         .replace("BODY", "<h1>Your login was successful</h1><a href='http://homer.stuy.edu/~nikita.borisov/BrikitaBrains.html'>Home</a>")
+                         .replace("BODY", "<h1>Your sign up was successful</h1><a href='http://homer.stuy.edu/~nikita.borisov/BrikitaBrains.html'>Home</a>")
     print outputHtml                         
 else:
     templateRead = open("template.txt", "rU")

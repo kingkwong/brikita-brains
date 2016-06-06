@@ -23,7 +23,7 @@ fromQS = cgi.FieldStorage()
 username = fromQS["username"].value
 password = fromQS["password"].value
 
-upoDict = csvToDict("../brikita-user-password-owner.csv") 
+upoDict = csvToDict("../../brikita-user-password-owner.csv") 
 
 import hashlib
 if upoDict[username][0] == hashlib.md5(password).hexdigest():
@@ -32,7 +32,7 @@ if upoDict[username][0] == hashlib.md5(password).hexdigest():
     templateRead.close()
     
     outputHtml = template.replace("TITLE", "success")\
-                         .replace("BODY", "<h1>Your login was successful</h1><a href='http://homer.stuy.edu/~nikita.borisov/BrikitaBrains.html'>Home</a>")
+                         .replace("BODY", "<h1>Your login was successful</h1><a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaBrains.html'>Home</a>")
     print outputHtml
 else:
     templateRead = open("template.txt", "rU")
@@ -40,5 +40,5 @@ else:
     templateRead.close()
     
     outputHtml = template.replace("TITLE", "error")\
-                         .replace("BODY", "<h1>Your username or password is incorrect</h1><a href='http://homer.stuy.edu/~nikita.borisov/BrikitaLogin.html'>Back</a>")
+                         .replace("BODY", "<h1>Your username or password is incorrect</h1><a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaLogin.html'>Back</a>")
     print outputHtml

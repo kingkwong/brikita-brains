@@ -25,7 +25,8 @@ password = fromQS["password"].value
 
 upoDict = csvToDict("../brikita-user-password-owner.csv") 
 
-if upoDict[username][0] == password:
+import hashlib
+if upoDict[username][0] == hashlib.md5(password).hexdigest():
     templateRead = open("template.txt", "rU")
     template = templateRead.read()
     templateRead.close()

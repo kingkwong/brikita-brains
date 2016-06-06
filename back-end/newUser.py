@@ -22,7 +22,8 @@ def csvToDict(filename):
         listOfValues = line.split(",")
         output[listOfValues[0]] = listOfValues[1:]
     return output
-    
+
+
 if rpassword == password:
     checkVacancy = csvToDict("../brikita-user-password-owner.csv") 
     if username in checkVacancy:
@@ -32,9 +33,10 @@ if rpassword == password:
     
         outputHtml = template.replace("TITLE", "error")\
                              .replace("BODY", "<h1>This username already exists</h1><a href='http://homer.stuy.edu/~nikita.borisov/BrikitaSignUp.html'>Back</a>")
-    
+        print outputHtml
     else:
-        inputString = "\n" + username + "," + password + "," + owner 
+        import hashlib
+        inputString = "\n" + username + "," + hashlib.md5(password).hexdigest() + "," + owner 
         dest = open("../brikita-user-password-owner.csv", "a", 0)
         dest.write(inputString)
         dest.close()

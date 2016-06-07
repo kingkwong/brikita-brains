@@ -5,8 +5,6 @@ cgitb.enable()
 
 print 'content-type: text/html\n'
 
-
-
 def csvToDict(filename):
     fo = open(filename, "rU")
     csv = fo.read()

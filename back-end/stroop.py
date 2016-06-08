@@ -11,6 +11,7 @@ level = int(fromQS["level"].value)
 numright = fromQS["numright"].value
 numwrong = fromQS["numwrong"].value
 timeDict = eval(fromQS["timeDict"].value)
+user = fromQS["user"].value
 
 from datetime import datetime
 timeDict[level] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -38,9 +39,7 @@ elif level <= 30:
 	while nextColor == nextWord:
 		nextColor = random.choice(listOfColors)
 	stage = 3	
-else:
-    print timeDict
-    
+
 question = str(level)
 level = str(level+1)
 
@@ -106,8 +105,17 @@ if stage != 0:
         .replace("NUMWRONG", numwrong) \
         .replace("OLDANSWER", nextWord) \
         .replace("QUESTION", question)\
+        .replace("USER", user)\
         .replace("TIMEDICT", str(timeDict))
 else:
-    print "test done"
+    print """
+        Test Done
+        """
+    resultCsvLine = "\n" + "stroop" + "," + str(timeDict) + "," + numright + "," + numwrong
+    path = "../" + user + ".csv"
+    dest = open(path, "a" , 0)
+    dest.write(resultCsvLine)
+    dest.close()
+    
 
 

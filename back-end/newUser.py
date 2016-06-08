@@ -36,7 +36,7 @@ if rpassword == password:
         print outputHtml
     else:
         import hashlib
-        inputString = "\n" + username + "," + hashlib.md5(password).hexdigest() + "," + owner 
+        inputString = "\n" + username + "," + hashlib.sha256(password).hexdigest() + "," + owner 
         dest = open("../../brikita-user-password-owner.csv", "a", 0)
         dest.write(inputString)
         dest.close()

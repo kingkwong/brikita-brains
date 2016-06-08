@@ -27,7 +27,7 @@ upoDict = csvToDict("../../brikita-user-password-owner.csv")
 
 import hashlib
 try:
-    if upoDict[username][0] == hashlib.md5(password).hexdigest():
+    if upoDict[username][0] == hashlib.sha256(password).hexdigest():
         templateRead = open("template.txt", "rU")
         template = templateRead.read()
         templateRead.close()

@@ -10,6 +10,10 @@ fromQS = cgi.FieldStorage()
 level = int(fromQS["level"].value)
 numright = fromQS["numright"].value
 numwrong = fromQS["numwrong"].value
+timeDict = eval(fromQS["timeDict"].value)
+
+from datetime import datetime
+timeDict[level] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 if level != 1:
 	oldAnswer = fromQS["oldanswer"].value
@@ -34,7 +38,9 @@ elif level <= 30:
 	while nextColor == nextWord:
 		nextColor = random.choice(listOfColors)
 	stage = 3	
-
+else:
+    print timeDict
+    
 question = str(level)
 level = str(level+1)
 
@@ -51,6 +57,7 @@ stroopTemplate = """
 	<input type="hidden" name="oldanswer" value="OLDANSWER">
 	<input type="hidden" name="numright" value="NUMRIGHT">
 	<input type="hidden" name="numwrong" value="NUMWRONG">
+    <input type="hidden" name="timeDict" value="TIMEDICT">
 	<!-- static part begins-->
 	<input type="radio" name="useranswer" value="red"> RED <br>
 	<input type="radio" name="useranswer" value="blue"> BLUE <br>
@@ -88,16 +95,19 @@ def returnInstructions (stage):
 			option that corresponds to what the word says, regardless of what ink it is in. In this 
 			example, it would be the option RED.
 		'''
-		
-instructions = returnInstructions(stage)
+   
+if stage != 0:
+    instructions = returnInstructions(stage)
+    print stroopTemplate.replace("COLOR", nextColor) \
+        .replace("WORD", nextWord) \
+        .replace("LVL", level) \
+        .replace("INSTRUCTIONS", instructions) \
+        .replace("NUMRIGHT", numright) \
+        .replace("NUMWRONG", numwrong) \
+        .replace("OLDANSWER", nextWord) \
+        .replace("QUESTION", question)\
+        .replace("TIMEDICT", str(timeDict))
+else:
+    print "test done"
 
-outputHtml = stroopTemplate.replace("COLOR", nextColor) \
-.replace("WORD", nextWord) \
-.replace("LVL", level) \
-.replace("INSTRUCTIONS", instructions) \
-.replace("NUMRIGHT", numright) \
-.replace("NUMWRONG", numwrong) \
-.replace("OLDANSWER", nextWord) \
-.replace("QUESTION", question)
 
-print outputHtml

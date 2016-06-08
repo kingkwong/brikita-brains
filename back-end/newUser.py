@@ -45,9 +45,18 @@ if rpassword == password:
         template = templateRead.read()
         templateRead.close()
     
+        successHTMLTemplate = """
+                            <h1>Your sign up was successful</h1>
+                            <a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaBrains.html'>Home</a>"
+                            <br>
+                            <form action="games.py" method="POST">
+                                <input type="hidden" name="user" value="USER">
+                                <input type="submit" value="GAMES">
+                            </form>
+                            """
         outputHtml = template.replace("TITLE", "success")\
-                             .replace("BODY", "<h1>Your sign up was successful</h1><a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaBrains.html'>Home</a>")
-        print outputHtml                         
+                            .replace("BODY", successHTMLTemplate.replace("USER", username))
+        print outputHtml                        
 else:
     templateRead = open("template.txt", "rU")
     template = templateRead.read()

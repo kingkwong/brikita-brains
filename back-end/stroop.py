@@ -11,18 +11,12 @@ level = int(fromQS["level"].value)
 numright = fromQS["numright"].value
 numwrong = fromQS["numwrong"].value
 timeDict = eval(fromQS["timeDict"].value)
+numRightDict = eval(fromQS["numRightDict"].value)
+numWrongDict = eval(fromQS["numWrongDict"].value)
 user = fromQS["user"].value
 
 from datetime import datetime
 timeDict[level] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-if level != 1:
-    oldAnswer = fromQS["oldanswer"].value
-    userAnswer = fromQS["useranswer"].value
-    if oldAnswer == userAnswer:
-        numright = str(int(numright)+1)
-    else:
-        numwrong = str(int(numwrong)+1)
 
 import random
 stage = 0
@@ -41,6 +35,23 @@ elif level <= 30:
         nextColor = random.choice(listOfColors)
     stage = 3
 
+
+if level != 1:
+    oldAnswer = fromQS["oldanswer"].value
+    userAnswer = fromQS["useranswer"].value
+    if oldAnswer == userAnswer:
+        numright = str(int(numright)+1)
+        try:
+            numRightDict[str(stage)] += 1
+        except:
+            numRightDict[str(stage)] = 1
+    else:
+        numwrong = str(int(numwrong)+1)
+        try:
+            numWrongDict[str(stage)] += 1         
+        except:
+            numWrongDict[str(stage)] = 1
+
 level = str(level+1)
 
 # print stage
@@ -57,6 +68,8 @@ stroopTemplate = """
         <input type="hidden" name="oldanswer" value="OLDANSWER">
         <input type="hidden" name="numright" value="NUMRIGHT">
         <input type="hidden" name="numwrong" value="NUMWRONG">
+        <input type="hidden" name="numWrongDict" value="NUMWRONGDICT">
+        <input type="hidden" name="numRightDict" value="NUMRIGHTDICT">
         <input type="hidden" name="timeDict" value="TIMEDICT">
         <!-- static part begins-->
         <input type="radio" name="useranswer" value="red" checked> RED <br>
@@ -86,7 +99,6 @@ def returnInstructions (stage):
                         match the word. For example, the word "RED" will be in the color RED. Choose the
                         option that corresponds to what the word says. In this example, it would be the
                         option RED.
-
                 '''
         if stage == 3:
                 return '''
@@ -113,18 +125,21 @@ if stage != 0:
         .replace("WORD", nextWord) \
         .replace("LVL", level) \
         .replace("INSTRUCTIONS", instructions) \
+        .replace("NUMRIGHTDICT", str(numRightDict)) \
+        .replace("NUMWRONGDICT", str(numWrongDict)) \
         .replace("NUMRIGHT", numright) \
         .replace("NUMWRONG", numwrong) \
-        .replace("OLDANSWER", nextWord) \
+        .replace("OLDANSWER", str(nextWord)) \
         .replace("QUESTION", question)\
         .replace("USER", user)\
         .replace("TIMEDICT", str(timeDict))
 else:
     print htmlDone
     times = str(timeDict).replace(",", ";")
-    resultCsvLine = "\n" + "stroop" + "," + times + "," + numright + "," + numwrong
+    numRights = str(numRightDict).replace(",", ";")
+    numWrongs = str(numWrongDict).replace(",", ";")
+    resultCsvLine = "\n" + "stroop" + "," + times + "," + numRights + "," + numWrongs
     path = "/home/students/2018/nikita.borisov/userDatabase/" + user + ".csv"
     dest = open(path, "a", 0)
     dest.write(resultCsvLine)
     dest.close()
-    

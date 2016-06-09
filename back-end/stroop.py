@@ -59,7 +59,7 @@ stroopTemplate = """
         <input type="hidden" name="numwrong" value="NUMWRONG">
         <input type="hidden" name="timeDict" value="TIMEDICT">
         <!-- static part begins-->
-        <input type="radio" name="useranswer" value="red"> RED <br>
+        <input type="radio" name="useranswer" value="red" checked> RED <br>
         <input type="radio" name="useranswer" value="blue"> BLUE <br>
         <input type="radio" name="useranswer" value="green"> GREEN <br>
         <input type="radio" name="useranswer" value="yellow"> YELLOW <br>

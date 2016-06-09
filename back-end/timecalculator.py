@@ -1,6 +1,3 @@
-start = "2016-06-08 21:21:07"
-end = "2016-06-08 22:14:08"
-
 def timeCalculator (time1, time2):
     spaceL1 = time1.find(" ") + 1
     spaceL2 = time2.find(" ") + 1
@@ -23,4 +20,7 @@ def timeCalculator (time1, time2):
                 }
     return finalTime
 
-print timeCalculator(start, end)
+if __name__ == "__main__":
+    start = "2016-06-08 21:21:07"
+    end = "2016-06-08 22:14:08"
+    print timeCalculator(start, end)

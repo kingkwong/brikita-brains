@@ -112,7 +112,7 @@ else:
         Test Done
         """
     resultCsvLine = "\n" + "stroop" + "," + str(timeDict) + "," + numright + "," + numwrong
-    path = "../" + user + ".csv"
+    path = "../../userDatabase/" + user + ".csv"
     dest = open(path, "a" , 0)
     dest.write(resultCsvLine)
     dest.close()

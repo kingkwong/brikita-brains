@@ -22,6 +22,8 @@ htmlTemplate = '''
 			<input type="hidden" name="numright" value="0">
 			<input type="hidden" name="numwrong" value="0">
             <input type="hidden" name="timeDict" value="{}">
+            <input type="hidden" name="numRightDict" value="{}">
+            <input type="hidden" name="numWrongDict" value="{}">
 			<input type="submit" value="Stroop Test">
 		</form>
 	</body>

@@ -8,6 +8,7 @@ print 'content-type: text/html\n'
 import cgi
 fromQS = cgi.FieldStorage()
 
+# user authentication
 try:
     user = fromQS["user"].value
     isUser = True
@@ -20,6 +21,36 @@ except:
 # fix.write(fixedContents)
 # fix.close()
 
+# finds the average of a list of integers
+def averageAcc (listOfDict, key):
+    list = []
+    for dict in listOfDict:
+        list.append(dict[key])
+    length = float(len(list))
+    average = sum(list)/length
+    return average
+
+# finds the average time of a list of dictionaries with the keys "hours", "minutes", "seconds"    
+def averageTime (listOfDict):
+    length = len(listOfDict)
+    listOfHours = []
+    listOfMinutes = []
+    listOfSeconds = []
+    for dict in listOfDict:
+        dict = eval(dict)
+        listOfHours.append(dict["hours"])
+        listOfMinutes.append(dict["minutes"])
+        listOfSeconds.append(dict["seconds"])
+    averageHour = sum(listOfHours)/length
+    averageMinute = sum(listOfMinutes)/length
+    averageSecond = sum(listOfSeconds)/length
+    averageDict = {
+        "hours"   : averageHour,
+        "minutes" : averageMinute,
+        "seconds" : averageSecond,
+    }
+    return averageDict
+
 def parseResults (contents):
     listOfTrials = contents.split("\n")
     listOfLists = []
@@ -27,7 +58,8 @@ def parseResults (contents):
         sublist = trial.split(",")[1:]
         listOfLists.append(sublist)
     return listOfLists
-    
+
+# makes a table out of the elements in each of the three input lists    
 def tableGen (list1, list2, list3, caption):
     tableTemplate = '''
         <table>
@@ -73,11 +105,26 @@ links = '''
         <input type="submit" value="Back">
     </form> 
 '''
-   
+summaryPage = '''
+    <br>
+    <h1> Overall Times </h1>
+        <h2> Test 1: TIMEONE </h2>
+        <h2> Test 2: TIMETWO </h2>
+        <h2> Test 3: TIMETHREE </h2>
+    <br>
+    <h1> Overall Accuracy <h1>
+        <h2> Test 1: ACCURACYONE </h2>
+        <h2> Test 2: ACCURACYTWO </h2>
+        <h2> Test 3: ACCURACYTHREE </h2>
+    <br>
+'''
+
+# open and reads basic template file for html   
 htmlTemplateFile = open("template.txt", "rU")
 htmlTemplate = htmlTemplateFile.read()
 htmlTemplateFile.close()
-    
+
+# checks if the user has a results file    
 path = "/home/students/2018/nikita.borisov/userDatabase/" + user + ".csv"
 try:
     csv = open(path, "rU")
@@ -87,6 +134,7 @@ except:
     finalHtml = htmlTemplate.replace("BODY", htmlBody).replace("TITLE", "Error | BrikitaBrains")
     print finalHtml
 
+# main code
 if isUser == True:
     # reads user data from csv file
     results = csv.read()   
@@ -121,6 +169,7 @@ if isUser == True:
 
     # print correctList, wrongList
 
+    # creates a list of how accurate the user was in each of the three trials
     listOfCorrect1 = []
     listOfCorrect2 = []
     listOfCorrect3 = []
@@ -129,13 +178,33 @@ if isUser == True:
         listOfCorrect1.append(str(dict["1"]*10) + "% correct")
         listOfCorrect2.append(str(dict["2"]*10) + "% correct")
         listOfCorrect3.append(str(dict["3"]*10) + "% correct")
-        
+    
+    # generate results for user's overall performance
+    timeOne   = str(averageTime(listOfTime1))
+    timeTwo   = str(averageTime(listOfTime2))
+    timeThree = str(averageTime(listOfTime3))
+    
+    accuracyOne   = str(int(averageAcc(correctList, '1')*10)) + "% correct"
+    accuracyTwo   = str(int(averageAcc(correctList, '2')*10)) + "% correct"
+    accuracyThree = str(int(averageAcc(correctList, '3')*10)) + "% correct"
+    
+    finalSummary = summaryPage.replace("TIMEONE", timeOne) \
+                              .replace("TIMETWO", timeTwo) \
+                              .replace("TIMETHREE", timeThree) \
+                              .replace("ACCURACYONE", accuracyOne) \
+                              .replace("ACCURACYTWO", accuracyTwo) \
+                              .replace("ACCURACYTHREE", accuracyThree)
+    
+    # puts results into tables
     htmlBody = tableGen(listOfTime1, listOfTime2, listOfTime3, "Average Times") + \
                tableGen(listOfCorrect1, listOfCorrect2, listOfCorrect3, "Average Accuracy") + \
+               finalSummary + \
                links.replace("USER", user)
     
+    # sets up final html page to return
     htmlFinal = htmlTemplate.replace("BODY", htmlBody).replace("TITLE", "Results | BrikitaBrains")
     print htmlFinal
+    
 elif isUser == False:
     file = open("lost.html", "rU")
     print file.read()

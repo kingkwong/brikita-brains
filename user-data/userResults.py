@@ -59,6 +59,22 @@ def parseResults (contents):
         listOfLists.append(sublist)
     return listOfLists
 
+def listToPolylinePoints(list):
+    outputList = []
+    i = 0
+    while i < len(list):
+        outputList.append((i+1)*50)
+        try:
+            outputList.append(500-10*int(eval(list[i])["seconds"]))
+        except:
+            outputList.append(500-5*int(list[i].replace("% correct", "")))
+        i += 1
+    outputStr = ""
+    j = 0
+    while j < len(outputList):
+        outputStr += str(outputList[j]) + "," + str(outputList[j+1]) + " "
+        j += 2
+    return outputStr
 # makes a table out of the elements in each of the three input lists    
 def tableGen (list1, list2, list3, caption):
     tableTemplate = '''
@@ -117,6 +133,16 @@ summaryPage = '''
         <h2> Test 2: ACCURACYTWO </h2>
         <h2> Test 3: ACCURACYTHREE </h2>
     <br>
+'''
+
+polyline = '''
+    <h3> TITLE </h3>
+    <svg height="500" width="1000">
+        <rect height="500" width="1000" 
+        style="stroke:black; stroke-width=2; fill:none"/>
+        <polyline points="POINTS"
+        style="stroke:blue; stroke-width=3; fill:none;"/>
+    </svg>
 '''
 
 # open and reads basic template file for html   
@@ -199,7 +225,20 @@ if isUser == True:
     htmlBody = tableGen(listOfTime1, listOfTime2, listOfTime3, "Average Times") + \
                tableGen(listOfCorrect1, listOfCorrect2, listOfCorrect3, "Average Accuracy") + \
                finalSummary + \
-               links.replace("USER", user)
+               links.replace("USER", user) + \
+               polyline.replace("TITLE", "Times for trial 1")\
+                       .replace("POINTS", listToPolylinePoints(listOfTime1))+\
+               polyline.replace("TITLE", "Times for trial 2")\
+                       .replace("POINTS", listToPolylinePoints(listOfTime2))+\
+               polyline.replace("TITLE", "Times for trial 3")\
+                       .replace("POINTS", listToPolylinePoints(listOfTime3))+\
+               polyline.replace("TITLE", "Accurcy for trial 1")\
+                       .replace("POINTS", listToPolylinePoints(listOfCorrect1))+\
+               polyline.replace("TITLE", "Accurcy for trial 2")\
+                       .replace("POINTS", listToPolylinePoints(listOfCorrect2))+\
+               polyline.replace("TITLE", "Accurcy for trial 3")\
+                       .replace("POINTS", listToPolylinePoints(listOfCorrect3))
+
     
     # sets up final html page to return
     htmlFinal = htmlTemplate.replace("BODY", htmlBody).replace("TITLE", "Results | BrikitaBrains")
@@ -209,4 +248,3 @@ elif isUser == False:
     file = open("lost.html", "rU")
     print file.read()
     file.close()
-    

@@ -21,7 +21,7 @@ fromQS = cgi.FieldStorage()
 username = fromQS["username"].value
 password = fromQS["password"].value
 
-upoDict = csvToDict("../../brikita-user-password-owner.csv") 
+upoDict = csvToDict("/home/students/2018/nikita.borisov/brikita-user-password-owner.csv") 
 
 import hashlib
 try:
@@ -31,7 +31,7 @@ try:
         templateRead.close()
         successHTMLTemplate = """
                             <h1>Your login was successful</h1>
-                            <a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaBrains.html'>Home</a>"
+                            <a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaBrains.html'>Home</a>
                             <br>
                             <form action="games.py" method="POST">
                                 <input type="hidden" name="user" value="USER">

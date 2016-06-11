@@ -23,9 +23,8 @@ def csvToDict(filename):
         output[listOfValues[0]] = listOfValues[1:]
     return output
 
-
 if rpassword == password:
-    checkVacancy = csvToDict("../../brikita-user-password-owner.csv") 
+    checkVacancy = csvToDict("/home/students/2018/nikita.borisov/brikita-user-password-owner.csv") 
     if username in checkVacancy:
         templateRead = open("template.txt", "rU")
         template = templateRead.read()

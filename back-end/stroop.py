@@ -58,8 +58,69 @@ level = str(level+1)
 stroopTemplate = """
 <h2> You are currently on question QUESTION </h2>
 <p> INSTRUCTIONS </p>
-<svg>
- <text x="20" y="40" style="fill: COLOR; stroke: COLOR; font-size: 48px;"> WORD </text>
+<svg height="200" width="300">
+ <rect x="0" y="0" height="200" width="300" 
+       stroke-width="3" stroke="black" style="fill:#ffffff" />
+ <circle cx="73.66" cy="70" r="63.66" 
+         style="fill:COLOR; stroke:#000000">
+ <animate attributeName="cx" 
+             from="73.66"  to="373.66"
+             begin="0s" dur="1s"
+             fill="freeze"
+             />
+ </circle>
+ <circle cx="68.66" cy="75" r="63.66" 
+         style="fill:COLOR; stroke:#000000">
+ <animate attributeName="cx" 
+             from="68.66"  to="368.66"
+             begin="0s" dur="1s"
+             fill="freeze"
+             />
+ </circle>
+ <circle cx="63.66" cy="80" r="63.66" 
+         style="fill:COLOR; stroke:#000000">
+ <animate attributeName="cx" 
+             from="63.66"  to="363.66"
+             begin="0s" dur="1s"
+             fill="freeze"
+             />
+ </circle>
+ <line x1="18.646" y1="35" x2="28.646" y2="25" 
+       style="stroke-width:3; stroke:#000000">
+ <animate attributeName="x1" 
+             from="18.646"  to="318.646"
+             begin="0s" dur="1s"
+             fill="freeze"
+             />
+ <animate attributeName="x2" 
+             from="28.646"  to="328.646"
+             begin="0s" dur="1s"
+             fill="freeze"
+             />
+ </line>
+ <line x1="108.67" y1="125" x2="118.67" y2="115" 
+       style="stroke-width:3; stroke:#000000">
+ <animate attributeName="x1" 
+             from="108.67"  to="408.67"
+             begin="0s" dur="1s"
+             fill="freeze"
+             />
+ <animate attributeName="x2" 
+             from="118.67"  to="418.67"
+             begin="0s" dur="1s"
+             fill="freeze"
+             />
+ </line>
+ <text x="0" y="0" 
+        style="stroke: #ffffff; stroke-width:.25; fill: COLOR; font-size: 24px;">
+      WORD
+      <animateMotion
+              path="M10,80 q100,-45 300, 0"
+              begin="0s" dur="1s" 
+              rotate="auto"
+              fill"freeze"
+              />
+  </text>
 </svg>
 <form method="POST" action="stroop.py">
         <!-- hidden variables -->

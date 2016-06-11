@@ -23,41 +23,38 @@ password = fromQS["password"].value
 
 upoDict = csvToDict("/home/students/2018/nikita.borisov/brikita-user-password-owner.csv") 
 
+templateRead = open("template.txt", "rU")
+template = templateRead.read()
+templateRead.close()
+
+successHTMLTemplate = """
+    <h1>Your login was successful</h1>
+    <form action="index.html" method="POST">
+        <input type="submit" value="Home">
+    </form>
+    <form action="user.py" method="POST">
+        <input type="hidden" name="user" value="USER">
+        <input type="submit" value="Show me the stuff!">
+    </form>
+"""
+
+badLoginHTMLTemplate = '''
+    <h1>Your username or password is incorrect</h1>
+    <form action="BrikitaLogin.html" method="POST">
+        <input type="hidden" name="user" value="USER">
+        <input type="submit" value="Try Again?">
+    </form>
+'''
+
 import hashlib
 try:
-    if upoDict[username][0] == hashlib.sha256(password).hexdigest():
-        templateRead = open("template.txt", "rU")
-        template = templateRead.read()
-        templateRead.close()
-        successHTMLTemplate = """
-                            <h1>Your login was successful</h1>
-                            <a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaBrains.html'>Home</a>
-                            <br>
-                            <form action="games.py" method="POST">
-                                <input type="hidden" name="user" value="USER">
-                                <input type="submit" value="GAMES">
-                            </form>
-                            """
-        outputHtml = template.replace("TITLE", "success")\
-                            .replace("BODY", successHTMLTemplate.replace("USER", username))
-        print outputHtml
+    if upoDict[username][0] == hashlib.sha256(password).hexdigest():      
+        outputHtml = template.replace("TITLE", "Success | BrikitaBrains")\
+                             .replace("BODY", successHTMLTemplate.replace("USER", username))
     else:
-        templateRead = open("template.txt", "rU")
-        template = templateRead.read()
-        templateRead.close()
-        outputHtml = template.replace("TITLE", "error")\
-                            .replace("BODY", """
-                            <h1>Your username or password is incorrect</h1>
-                            <a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaLogin.html'>Back</a>
-                            """)
-        print outputHtml
+        outputHtml = template.replace("TITLE", "Error | BrikitaBrains")\
+                             .replace("BODY", badLoginHTMLTemplate)
 except:
-    templateRead = open("template.txt", "rU")
-    template = templateRead.read()
-    templateRead.close()
-    outputHtml = template.replace("TITLE", "error")\
-                         .replace("BODY", """
-                         <h1>Your username or password is incorrect</h1>
-                         <a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaLogin.html'>Back</a>
-                         """)
-    print outputHtml
+    outputHtml = template.replace("TITLE", "Error | BrikitaBrains")\
+                         .replace("BODY", badLoginHTMLTemplate)
+print outputHtml

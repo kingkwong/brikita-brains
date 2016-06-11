@@ -8,15 +8,17 @@ print 'content-type: text/html\n'
 import cgi
 fromQS = cgi.FieldStorage()
 
-htmlTemplate = '''
-	<!DOCTYPE html>
-	<html>
-	<head>
-		<title>Games</title>
-	</head>
-	<body>
-		<h1> Here are some of our current game options: </h1>
+# user authentication setup
+try:
+    user = fromQS["user"].value
+    isUser = True
+except:
+    isUser = False
+
+htmlBodyTemplate = '''
+		<h1> Here are some of our current game option(s): </h1>
 		<form method="POST" action="stroop.py">
+            <!-- setup variables -->
 			<input type="hidden" name="user" value="USER">
 			<input type="hidden" name="level" value="1">
 			<input type="hidden" name="numright" value="0">
@@ -26,22 +28,20 @@ htmlTemplate = '''
             <input type="hidden" name="numWrongDict" value="{}">
 			<input type="submit" value="Stroop Test">
 		</form>
-	</body>
-	</html>
-'''
+        <form action="user.py" method="POST">
+            <input type="hidden" name="user" value="USER">
+            <input type="submit" value="Back">
+        </form> 
+    '''
 
-# user authentication setup
-try:
-	user = fromQS["user"].value
-	outputHtml = htmlTemplate.replace("USER", user)
-	print outputHtml
-except:
-	print '''
-		<h1> Lost? </h1>
-		<p> It appears you have not login yet. Here are some helpful links: </p>
-		<a href="http://homer.stuy.edu/~nikita.borisov/project/BrikitaLogin.html"> <button>Login</button></a> <br>
-		<a href="http://homer.stuy.edu/~nikita.borisov/project/BrikitaSignUp.html"> <button>Sign Up!</button></a> <br>
-		<a href="http://homer.stuy.edu/~nikita.borisov/project/BrikitaBrains.html"> <button>Homepage</button></a> <br>
-	'''
-
-
+if isUser == True:
+    htmlTemplateFile = open("template.txt", "rU")
+    htmlTemplate = htmlTemplateFile.read()
+    htmlTemplateFile.close()
+    htmlBody = htmlBodyTemplate.replace("USER", user)
+    htmlFinal = htmlTemplate.replace("BODY", htmlBody).replace("TITLE", "Games | BrikitaBrains")
+    print htmlFinal
+else:
+    file = open("lost.html", "rU")
+    print file.read()
+    file.close()

@@ -23,44 +23,53 @@ def csvToDict(filename):
         output[listOfValues[0]] = listOfValues[1:]
     return output
 
+successHTMLTemplate = """
+    <h1>Your sign up was successful</h1>
+    <form method="POST" action="index.html">
+        <input type="submit" value="Home"> 
+    </form>
+    <form action="user.py" method="POST">
+        <input type="hidden" name="user" value="USER">
+        <input type="submit" value="Show me the stuff">
+    </form>
+"""
+existHTMLTemplate = '''
+    <h1>Oh Noes!</h1>
+    <p>It appears this username was already taken.</p>
+    <p>Please either log into your existing account, or create a new one with an unclaimed username.</p>
+    <form method="POST" action="BrikitaSignUp.html">
+        <input type="submit" value="New User"> 
+    </form>
+    <form method="POST" action="BrikitaLogin.html">
+        <input type="submit" value="Returning User"> 
+    </form>
+'''
+badpassHTMLTemplate = '''
+    <h1>Oh Noes!</h1>
+    <p>Your two passwords don't match. Please try signing up again.</p>
+    <form method="POST" action="BrikitaSignUp.html">
+        <input type="submit" value="Try Again?"> 
+    </form>
+'''   
+templateRead = open("template.txt", "rU")
+template = templateRead.read()
+templateRead.close()   
+    
 if rpassword == password:
     checkVacancy = csvToDict("/home/students/2018/nikita.borisov/brikita-user-password-owner.csv") 
     if username in checkVacancy:
-        templateRead = open("template.txt", "rU")
-        template = templateRead.read()
-        templateRead.close()
-    
-        outputHtml = template.replace("TITLE", "error")\
-                             .replace("BODY", "<h1>This username already exists</h1><a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaSignUp.html'>Back</a>")
-        print outputHtml
+        outputHtml = template.replace("TITLE", "Error | BrikitaBrains") \
+                             .replace("BODY", existHTMLTemplate)
     else:
         import hashlib
         inputString = "\n" + username + "," + hashlib.sha256(password).hexdigest() + "," + owner 
-        dest = open("../../brikita-user-password-owner.csv", "a", 0)
+        dest = open("/home/students/2018/nikita.borisov/brikita-user-password-owner.csv", "a", 0)
         dest.write(inputString)
         dest.close()
-    
-        templateRead = open("template.txt", "rU")
-        template = templateRead.read()
-        templateRead.close()
-    
-        successHTMLTemplate = """
-                            <h1>Your sign up was successful</h1>
-                            <a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaBrains.html'>Home</a>"
-                            <br>
-                            <form action="games.py" method="POST">
-                                <input type="hidden" name="user" value="USER">
-                                <input type="submit" value="GAMES">
-                            </form>
-                            """
-        outputHtml = template.replace("TITLE", "success")\
-                            .replace("BODY", successHTMLTemplate.replace("USER", username))
-        print outputHtml                        
-else:
-    templateRead = open("template.txt", "rU")
-    template = templateRead.read()
-    templateRead.close()
-    
-    outputHtml = template.replace("TITLE", "error")\
-                         .replace("BODY", "<h1>Your two passwords don't match</h1><a href='http://homer.stuy.edu/~nikita.borisov/project/BrikitaSignUp.html'>Back</a>")
-    print outputHtml
+        
+        outputHtml = template.replace("TITLE", "Success | BrikitaBrains") \
+                             .replace("BODY", successHTMLTemplate.replace("USER", username))                        
+else:   
+    outputHtml = template.replace("TITLE", "Error | BrikitaBrains") \
+                         .replace("BODY", badpassHTMLTemplate)
+print outputHtml

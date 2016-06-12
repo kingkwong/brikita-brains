@@ -7,6 +7,8 @@ print 'content-type: text/html\n'
 
 import cgi
 fromQS = cgi.FieldStorage()
+
+# import various values from query string
 level = int(fromQS["level"].value)
 numright = fromQS["numright"].value
 numwrong = fromQS["numwrong"].value
@@ -15,6 +17,7 @@ numRightDict = eval(fromQS["numRightDict"].value)
 numWrongDict = eval(fromQS["numWrongDict"].value)
 user = fromQS["user"].value
 
+# records time
 from datetime import datetime
 timeDict[level] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -25,6 +28,7 @@ nextWord = random.choice(listOfColors)
 nextColor = nextWord
 question = str(level)
 
+# sets stage
 if level <= 10:
     nextColor = "black"
     stage = 1
@@ -35,7 +39,7 @@ elif level <= 30:
         nextColor = random.choice(listOfColors)
     stage = 3
 
-
+# checks if answer is right or wrong, then adds it to counter
 if level != 1:
     oldAnswer = fromQS["oldanswer"].value
     userAnswer = fromQS["useranswer"].value
@@ -53,73 +57,11 @@ if level != 1:
             numWrongDict[str(stage)] = 1
 
 level = str(level+1)
-
 # print stage
-stroopTemplate = """
-<h2> You are currently on question QUESTION </h2>
-<p> INSTRUCTIONS </p>
-<svg height="400" width="600">
- <rect x="0" y="0" height="400" width="600" 
-       stroke-width="3" stroke="black" style="fill:#ffffff" />
- <circle cx="147.32" cy="140" r="127.32" 
-         style="fill:COLOR; stroke:#000000">
- <animate attributeName="cx" 
-             from="147.32"  to="747.32"
-             begin="0s" dur="2s"
-             fill="freeze"
-             />
- </circle>
- <circle cx="137.32" cy="150" r="127.32" 
-         style="fill:COLOR; stroke:#000000">
- <animate attributeName="cx" 
-             from="137.32"  to="737.32"
-             begin="0s" dur="2s"
-             fill="freeze"
-             />
- </circle>
- <circle cx="127.32" cy="160" r="127.32" 
-         style="fill:COLOR; stroke:#000000">
- <animate attributeName="cx" 
-             from="127.32"  to="727.32"
-             begin="0s" dur="2s"
-             fill="freeze"
-             />
- </circle>
- <text x="0" y="0" 
-        style="stroke: #ffffff; stroke-width:.25; fill: COLOR; font-size: 48px;">
-      WORD
-      <animateMotion
-              path="M127.32, 287.32 c0,-150 600,-150 600,0"
-              begin="0s" dur="2.4s" 
-              rotate="auto"
-              fill"freeze"
-              />
-  </text>
-</svg>
-<form method="POST" action="stroop.py">
-        <!-- hidden variables -->
-        <input type="hidden" name="level" value="LVL">
-        <input type="hidden" name="user" value="USER">
-        <input type="hidden" name="oldanswer" value="OLDANSWER">
-        <input type="hidden" name="numright" value="NUMRIGHT">
-        <input type="hidden" name="numwrong" value="NUMWRONG">
-        <input type="hidden" name="numWrongDict" value="NUMWRONGDICT">
-        <input type="hidden" name="numRightDict" value="NUMRIGHTDICT">
-        <input type="hidden" name="timeDict" value="TIMEDICT">
-        <!-- static part begins-->
-        <input type="radio" name="useranswer" value="red" checked> RED <br>
-        <input type="radio" name="useranswer" value="blue"> BLUE <br>
-        <input type="radio" name="useranswer" value="green"> GREEN <br>
-        <input type="radio" name="useranswer" value="yellow"> YELLOW <br>
-        <input type="radio" name="useranswer" value="orange"> ORANGE <br>
-        <input type="radio" name="useranswer" value="purple"> PURPLE <br>
-        <input type="radio" name="useranswer" value="pink"> PINK <br>
-        <input type="submit" value="SUBMIT">
-        <!-- static part ends -->
-</form>
-<p> Correct: NUMRIGHT </p>
-<p> Incorrect: NUMWRONG </p>
-"""
+
+stroopHtmlFile = open("stroopTemplate.html", "rU")
+stroopTemplate = stroopHtmlFile.read()
+stroopHtmlFile.close()
 
 def returnInstructions (stage):
         if stage == 1:
@@ -142,7 +84,6 @@ def returnInstructions (stage):
                         option that corresponds to what the word says, regardless of what ink it is in. In this
                         example, it would be the option RED.
                '''
-
 
 htmlDone = '''
     <h1> You have just completed the Stroop Test! </h1>

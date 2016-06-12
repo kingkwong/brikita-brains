@@ -8,17 +8,16 @@ def maxAcc (listOfDict, key):
 
 # finds the minimum time for a user
 def minTime (listOfDict):
-    listOfHours = []
-    listOfMinutes = []
-    listOfSeconds = []
+    listOfTimes = []
     for dict in listOfDict:
         dict = eval(dict)
-        listOfHours.append(dict["hours"])
-        listOfMinutes.append(dict["minutes"])
-        listOfSeconds.append(dict["seconds"])
-    minHour = min(listOfHours)
-    minMinute = min(listOfMinutes)
-    minSecond = min(listOfSeconds)
+        seconds = 3600 * dict["hours"] + 60 * dict["minutes"] + dict["seconds"]
+        listOfTimes.append(seconds)
+    minTime = min(listOfTimes)
+    minHour = minTime / 3600
+    minutesAndSeconds = diff_seconds % 3600
+    minMinute = minutesAndSeconds / 60
+    minSecond = minutesAndSeconds % 60
     minDict = {
         "hours"   : minHour,
         "minutes" : minMinute,

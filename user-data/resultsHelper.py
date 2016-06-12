@@ -15,7 +15,7 @@ def minTime (listOfDict):
         listOfTimes.append(seconds)
     minTime = min(listOfTimes)
     minHour = minTime / 3600
-    minutesAndSeconds = diff_seconds % 3600
+    minutesAndSeconds = minTime % 3600
     minMinute = minutesAndSeconds / 60
     minSecond = minutesAndSeconds % 60
     minDict = {
@@ -24,6 +24,9 @@ def minTime (listOfDict):
         "seconds" : minSecond,
     }
     return minDict
+    
+if __name__ == "__main__":
+    print minTime(["{'hours': 0, 'seconds': 6, 'minutes': 0}", "{'hours': 0, 'seconds': 7, 'minutes': 0}", "{'hours': 0, 'seconds': 22, 'minutes': 0}", "{'hours': 0, 'seconds': 5, 'minutes': 0}"])
 
 # converts a file into a list of data that can be iterated through
 def parseResults (contents):

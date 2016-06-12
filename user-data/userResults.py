@@ -62,6 +62,14 @@ polyline = '''
         style="stroke:black; stroke-width=2; fill:none"/>
         <polyline points="POINTS"
         style="stroke:blue; stroke-width=3; fill:none;"/>
+        <text style="stroke:black; fill:black; stroke-width:1; font-size:12px;" x="0" y="250">50</text>
+        <text style="stroke:black; fill:black; stroke-width:1; font-size:12px;" x="50" y="500">1st game</text>
+        <text style="stroke:black; fill:black; stroke-width:1; font-size:12px;" x="100" y="500">2nd game</text>
+        <text style="stroke:black; fill:black; stroke-width:1; font-size:12px;" x="150" y="500">3rd game</text>
+        <text style="stroke:black; fill:black; stroke-width:1; font-size:12px;" x="200" y="500">4th game</text>
+        <text style="stroke:black; fill:black; stroke-width:1; font-size:12px;" x="250" y="500">5th game</text>
+        <text style="stroke:black; fill:black; stroke-width:1; font-size:12px;" x="300" y="500">6th game</text>
+        <text style="stroke:black; fill:black; stroke-width:1; font-size:12px;" x="350" y="500">7th game</text>
     </svg>
 '''
 

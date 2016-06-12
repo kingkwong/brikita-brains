@@ -21,86 +21,7 @@ except:
 # fix.write(fixedContents)
 # fix.close()
 
-# finds the average of a list of integers
-def averageAcc (listOfDict, key):
-    list = []
-    for dict in listOfDict:
-        list.append(dict[key])
-    length = float(len(list))
-    average = sum(list)/length
-    return average
-
-# finds the average time of a list of dictionaries with the keys "hours", "minutes", "seconds"    
-def averageTime (listOfDict):
-    length = len(listOfDict)
-    listOfHours = []
-    listOfMinutes = []
-    listOfSeconds = []
-    for dict in listOfDict:
-        dict = eval(dict)
-        listOfHours.append(dict["hours"])
-        listOfMinutes.append(dict["minutes"])
-        listOfSeconds.append(dict["seconds"])
-    averageHour = sum(listOfHours)/length
-    averageMinute = sum(listOfMinutes)/length
-    averageSecond = sum(listOfSeconds)/length
-    averageDict = {
-        "hours"   : averageHour,
-        "minutes" : averageMinute,
-        "seconds" : averageSecond,
-    }
-    return averageDict
-
-def parseResults (contents):
-    listOfTrials = contents.split("\n")
-    listOfLists = []
-    for trial in listOfTrials:
-        sublist = trial.split(",")[1:]
-        listOfLists.append(sublist)
-    return listOfLists
-
-def listToPolylinePoints(list):
-    outputList = []
-    i = 0
-    while i < len(list):
-        outputList.append((i+1)*50)
-        try:
-            outputList.append(500-10*int(eval(list[i])["seconds"]))
-        except:
-            outputList.append(500-5*int(list[i].replace("% correct", "")))
-        i += 1
-    outputStr = ""
-    j = 0
-    while j < len(outputList):
-        outputStr += str(outputList[j]) + "," + str(outputList[j+1]) + " "
-        j += 2
-    return outputStr
-# makes a table out of the elements in each of the three input lists    
-def tableGen (list1, list2, list3, caption):
-    tableTemplate = '''
-        <table>
-            <caption> <h1> CAPTION </h1> </caption>
-            <tbody>
-                <tr>
-                    <th> Test 1 </th>
-                    <th> Test 2 </th>
-                    <th> Test 3 </th>
-                </tr>
-                TABLECONTENTS
-            </tbody>
-        </table>
-    '''
-    i = 0
-    finalEntry = ""
-    while i < len(list1):
-        subentry1 = "<td>" + str(list1[i]) + "</td>"
-        subentry2 = "<td>" + str(list2[i]) + "</td>"
-        subentry3 = "<td>" + str(list3[i]) + "</td>"
-        entry = "<tr>" + subentry1 + subentry2 + subentry3 + "</tr>\n"
-        finalEntry += entry
-        i += 1
-    finalTable = tableTemplate.replace("TABLECONTENTS", finalEntry).replace("CAPTION", caption)
-    return finalTable
+import resultsHelper
 
 noResultsPage = '''
         <h1> Oh Noes! </h1>
@@ -134,7 +55,6 @@ summaryPage = '''
         <h2> Test 3: ACCURACYTHREE </h2>
     <br>
 '''
-
 polyline = '''
     <h3> TITLE </h3>
     <svg height="500" width="1000">
@@ -174,7 +94,7 @@ if isUser == True:
     listOfTime3 = []
     correctList = []
     # wrongList = []
-    data = parseResults(results)[1:]
+    data = resultsHelper.parseResults(results)[1:]
     
     # parses data to get list of times for each trial
     for entry in data:
@@ -206,13 +126,13 @@ if isUser == True:
         listOfCorrect3.append(str(dict["3"]*10) + "% correct")
     
     # generate results for user's overall performance
-    timeOne   = str(averageTime(listOfTime1))
-    timeTwo   = str(averageTime(listOfTime2))
-    timeThree = str(averageTime(listOfTime3))
+    timeOne   = timecalculator.timeDictToText(resultsHelper.averageTime(listOfTime1))
+    timeTwo   = timecalculator.timeDictToText(resultsHelper.averageTime(listOfTime2))
+    timeThree = timecalculator.timeDictToText(resultsHelper.averageTime(listOfTime3))
     
-    accuracyOne   = str(int(averageAcc(correctList, '1')*10)) + "% correct"
-    accuracyTwo   = str(int(averageAcc(correctList, '2')*10)) + "% correct"
-    accuracyThree = str(int(averageAcc(correctList, '3')*10)) + "% correct"
+    accuracyOne   = str(int(resultsHelper.averageAcc(correctList, '1')*10)) + "% correct"
+    accuracyTwo   = str(int(resultsHelper.averageAcc(correctList, '2')*10)) + "% correct"
+    accuracyThree = str(int(resultsHelper.averageAcc(correctList, '3')*10)) + "% correct"
     
     finalSummary = summaryPage.replace("TIMEONE", timeOne) \
                               .replace("TIMETWO", timeTwo) \
@@ -221,23 +141,33 @@ if isUser == True:
                               .replace("ACCURACYTWO", accuracyTwo) \
                               .replace("ACCURACYTHREE", accuracyThree)
     
+    finalTime1 = []
+    finalTime2 = []
+    finalTime3 = []
+    for timeDict in listOfTime1:
+        finalTime1.append(timecalculator.timeDictToText(eval(timeDict)))
+    for timeDict in listOfTime2:
+        finalTime2.append(timecalculator.timeDictToText(eval(timeDict)))
+    for timeDict in listOfTime3:
+        finalTime3.append(timecalculator.timeDictToText(eval(timeDict)))
+    
     # puts results into tables
-    htmlBody = tableGen(listOfTime1, listOfTime2, listOfTime3, "Average Times") + \
-               tableGen(listOfCorrect1, listOfCorrect2, listOfCorrect3, "Average Accuracy") + \
+    htmlBody = resultsHelper.tableGen(finalTime1, finalTime2, finalTime3, "Average Times") + \
+               resultsHelper.tableGen(listOfCorrect1, listOfCorrect2, listOfCorrect3, "Average Accuracy") + \
                finalSummary + \
                links.replace("USER", user) + \
                polyline.replace("TITLE", "Times for trial 1")\
-                       .replace("POINTS", listToPolylinePoints(listOfTime1))+\
+                       .replace("POINTS", resultsHelper.listToPolylinePoints(listOfTime1))+\
                polyline.replace("TITLE", "Times for trial 2")\
-                       .replace("POINTS", listToPolylinePoints(listOfTime2))+\
+                       .replace("POINTS", resultsHelper.listToPolylinePoints(listOfTime2))+\
                polyline.replace("TITLE", "Times for trial 3")\
-                       .replace("POINTS", listToPolylinePoints(listOfTime3))+\
+                       .replace("POINTS", resultsHelper.listToPolylinePoints(listOfTime3))+\
                polyline.replace("TITLE", "Accurcy for trial 1")\
-                       .replace("POINTS", listToPolylinePoints(listOfCorrect1))+\
+                       .replace("POINTS", resultsHelper.listToPolylinePoints(listOfCorrect1))+\
                polyline.replace("TITLE", "Accurcy for trial 2")\
-                       .replace("POINTS", listToPolylinePoints(listOfCorrect2))+\
+                       .replace("POINTS", resultsHelper.listToPolylinePoints(listOfCorrect2))+\
                polyline.replace("TITLE", "Accurcy for trial 3")\
-                       .replace("POINTS", listToPolylinePoints(listOfCorrect3))
+                       .replace("POINTS", resultsHelper.listToPolylinePoints(listOfCorrect3))
 
     
     # sets up final html page to return
@@ -245,6 +175,7 @@ if isUser == True:
     print htmlFinal
     
 elif isUser == False:
+    # user failed to authenticate; redirect user
     file = open("lost.html", "rU")
     print file.read()
     file.close()

@@ -24,7 +24,11 @@ htmlTemplateBody = '''
     </form>
     <form action="userResults.py" method="POST">
         <input type="hidden" name="user" value="USER">
-        <input type="submit" value="Results">
+        <input type="submit" value="My Results">
+    </form>
+    <form action="globalResults.py" method="POST">
+        <input type="hidden" name="user" value="USER">
+        <input type="submit" value="Leaderboard">
     </form>
         <form action="index.html" method="POST">
         <input type="submit" value="Homepage">

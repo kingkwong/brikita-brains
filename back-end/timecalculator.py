@@ -20,7 +20,34 @@ def timeCalculator (time1, time2):
                 }
     return finalTime
 
+def timeDictToText (dict):
+    timeText = ""
+    hours = dict["hours"]
+    minutes = dict["minutes"]
+    seconds = dict["seconds"]
+    if hours != 0:
+        if hours == 1:
+            string = " hour, "
+        else:
+            string = " hours, "
+        timeText += str(hours) + string
+    if minutes != 0:
+        if minutes == 1:
+            string = " minute, "
+        else:
+            string = " minutes, "
+        timeText += str(minutes) + string
+    if seconds != 0:
+        if seconds == 1:
+            string = " second"
+        else:
+            string = " seconds"
+        timeText += str(seconds) + string
+    return timeText
+    
 if __name__ == "__main__":
     start = "2016-06-08 21:21:07"
     end = "2016-06-08 22:14:08"
-    print timeCalculator(start, end)
+    final = timeCalculator(start, end)
+    print final
+    print timeDictToText(final)

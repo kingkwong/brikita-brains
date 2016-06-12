@@ -42,7 +42,7 @@ def sortByValues(dict, direction):
         while i < len(dict.values()):
             for j in dict:
                 if dict[j] == sorted(dict.values())[i]:
-                    output.append(j + ":" + str(sorted(dict.values())[i]))
+                    output.append(j + ":" + str(sorted(dict.values())[i]) + " seconds")
                     toPOP = j
             dict.pop(toPOP)
             i += 1
@@ -52,7 +52,7 @@ def sortByValues(dict, direction):
         while i < len(dict.values()):
             for j in dict:
                 if dict[j] == sorted(dict.values()[::-1])[i]:
-                    output.append(j + ":" + str(sorted(dict.values()[::-1])[i]))
+                    output.append(j + ":" + str(sorted(dict.values()[::-1])[i]) + "%")
                     toPOP = j
             dict.pop(toPOP)
             i += 1

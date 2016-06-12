@@ -86,7 +86,7 @@ def returnInstructions (stage):
                '''
 
 htmlDone = '''
-    <h1> You have just completed the Stroop Test! </h1>
+    <h1> Thank you for your assistance. </h1>
     <p> Here are some useful links to check out: </p>
 	<a href="http://homer.stuy.edu/~nikita.borisov/project/BrikitaBrains.html"> <button>Homepage</button></a> <br>
     <form action="userResults.py" method="POST">

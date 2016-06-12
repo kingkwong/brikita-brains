@@ -17,15 +17,9 @@ except:
 
 htmlBodyTemplate = '''
 		<h1> Here are some of our current game option(s): </h1>
-		<form method="POST" action="stroop.py">
+		<form method="POST" action="stroopSetup.py">
             <!-- setup variables -->
 			<input type="hidden" name="user" value="USER">
-			<input type="hidden" name="level" value="1">
-			<input type="hidden" name="numright" value="0">
-			<input type="hidden" name="numwrong" value="0">
-            <input type="hidden" name="timeDict" value="{}">
-            <input type="hidden" name="numRightDict" value="{}">
-            <input type="hidden" name="numWrongDict" value="{}">
 			<input type="submit" value="Stroop Test">
 		</form>
         <form action="user.py" method="POST">

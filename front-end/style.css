@@ -44,6 +44,10 @@ input:focus {
 	background-color:blue
 }
 
+button:hover, input[type=submit]:hover {
+    background-color: #3875a2
+}
+
 button, input[type=submit] {
     background-color: gray;
     border: none;

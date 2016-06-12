@@ -80,7 +80,7 @@ def listToPolylinePoints(list):
     while i < len(list):
         outputList.append((i+1)*50)
         try:
-            outputList.append(500-10*int(eval(list[i])["seconds"]))
+            outputList.append(500-5*int(eval(list[i])["seconds"]))
         except:
             outputList.append(500-5*int(list[i].replace("% correct", "")))
         i += 1

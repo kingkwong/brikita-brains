@@ -22,7 +22,8 @@ from datetime import datetime
 timeDict[level] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 import random
-stage = 0
+stage =0
+outline="white"
 listOfColors = ["red", "blue", "green", "yellow", "orange", "purple", "pink"]
 nextWord = random.choice(listOfColors)
 nextColor = nextWord
@@ -32,9 +33,12 @@ question = str(level)
 if level <= 10:
     nextColor = "black"
     stage = 1
+    outline="white"
 elif level <= 20:
     stage = 2
+    outline="black"
 elif level <= 30:
+    outline="black"
     while nextColor == nextWord:
         nextColor = random.choice(listOfColors)
     stage = 3
@@ -108,7 +112,8 @@ if stage != 0:
         .replace("OLDANSWER", str(nextWord)) \
         .replace("QUESTION", question)\
         .replace("USER", user)\
-        .replace("TIMEDICT", str(timeDict))
+        .replace("TIMEDICT", str(timeDict))\
+        .replace("OUTLINE", outline)
 else:
     print htmlDone
     times = str(timeDict).replace(",", ";")

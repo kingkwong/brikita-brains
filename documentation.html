@@ -33,14 +33,14 @@
 		<h1> Personnel </h1>
 		<p> Names: Nikita Borisov and Brian Kwong </p>
         
-        <p> Time Breakdown: Nikita Borisov...About 15 hours 
+        <p> Time Breakdown: Nikita Borisov... 50%, Brian Kwong... 50% </p> 
         
         <h1> Citations </h1>
         
         <h2> People </h2>
             <p> 
-                Thanks to Shiva (p.10) and Kenny (p.10) for allowing us to use their stylesheets to improve
-                the website's appearance. Here's a 
+                Thanks to Shiva (p.10) and Kenny (p.10) for allowing us to use their stylesheets as a foundation to add
+                further graphical effects. Here's a 
                 <a href="http://homer.stuy.edu/~shivasuryan.vummidi/project/"> link </a>
                 to their project.
             </p>
@@ -90,7 +90,7 @@
 							</li>
 						</ol>
 					</td>
-					<td> Estimated Time: ?? </td>
+					<td> Estimated Time: 5 hours || Actual Time: 10 hours </td>
 				</tr>
 				<tr>
 					<td> Game 2: "Similar or Different?" </td>
@@ -99,7 +99,7 @@
 						the current image was the same as the previous image or not. This test will look for
 						reaction time and accuracy of the user's response.
 					</td>
-					<td> Estimated Time: ?? </td>
+					<td> Estimated Time: 5 hours || THIS GAME WAS CANCELLED DUE TO A LACK OF TIME  </td>
 				</tr>
 				<tr>
 					<td> Homepage </td>
@@ -107,7 +107,7 @@
 						Will be an introduction for all new users, as well as have an option to sign up for an account, or
 						log into a currently existing account 
 					</td>
-					<td> Estimated Time: ?? </td>
+					<td> Estimated Time: .3 hours || Actual Time: .3 hours</td>
 				</tr>
 				<tr>
 					<td> Login and Signup </td>
@@ -115,7 +115,7 @@
 						Include option for desired name, username, and password. Encrypt the code, cause we care
 						about user safety (and we dont want to be sued!).
 					</td>
-					<td> Estimated Time: ?? </td>
+					<td> Estimated Time: 3 hours || Actual time: 4 hours </td>
 				</tr>
 				<tr>
 					<td> Personal Results Page</td>
@@ -123,18 +123,19 @@
 						This will show the results of the various games, and give feedback on what the user can don
 						to improve different skills
 					</td>
-					<td> Estimated Time: ?? </td>
+					<td> Estimated Time: 3 hours || Actual Time: 5 hours </td>
 				</tr>
 				<tr>
 					<td> Global Results Page</td>
 					<td> Compares your results to the rest of the user database, and shows how you place among them </td>
-					<td> Estimated Time: ?? </td>
+					<td> Estimated Time: 4 hours || Actual time: 6 hours </td>
 				</tr>
 				<tr>
 					<td> Total Time</td>
 					<td></td>
-					<td> Total Estimated Time: ?? </td>
+					<td> Total Estimated Time: 20.5 hours || Total Actual Time: 25.5 hours </td>
 				</tr>
+
 				<!-- for future features (template) -->
 				<!--
 				<tr>
@@ -154,11 +155,13 @@
             <p> Personal and global results page, which displays users' time and accuracy. </p>
             <p> Implemented account system, with encrypted passwords, stored in a CSV file. </p>
             <p> Generated and stored user results in CSV files. </p>
+            <p> Used CSS to stylize tables and buttons. </p>
+            <p> Implemented Stroop Test. </p>
             
         <h2> Learning </h2>
         <p> 
             Thanks to W3Schools for providing an extensive documentation, of which we used
-            to learn CSS and SVG.
+            to learn CSS and SVG. 
         </p>
         <p>
             Used GitHub as our primary file sharing method.
@@ -168,6 +171,8 @@
 		<h1> Next Steps, with time estimates </h1>
 		<p> Implement new games... Estimated Time: 5-10 hours per game </p>
         <p> Add compatibility for displaying future game results.. Estimated Time: 4 hours </p>
+        <p> Add point system to leaderboards / global results. This will provide a general score based on a user's time and accuracy... Estimated Time: 1 hour </p>
+        <p> Add sorting / filter system to user / global results... Estimated Time: 3 hours </p>
 		
 		<h1> Finished Work, identified by worker </h1>
 		<p> Login page... Worker(s): Nikita </p>
@@ -175,11 +180,15 @@
         <p> Personal Results page... Worker(s): Brian </p>
         <p> Global Results page... Worker(s): Nikita </p>
         <p> Homepage... Worker(s): Nikita, Brian </p>
+        <p> Stroop game... Worker(s): Nikita, Brian </p>
 		
 		<h1> Bugs </h1>
-		<p> When signing up, including commas in the entry-field will mess up record keeping for that user. </p>
-        <p> Global results page (Leaderboards) will show a user's best time, regardless of their accuracy. 
-        A user can exploit this by simply spamming the game, thus getting the best time. </p>
+		<p> The security can be bypassed by typing your username in the query string </p>
+        <p> Someone spams the games by rapidly clicking enter. They get a very low accuracy, but also a very fast time. This time goes down in the leader boards </p>
+        <p> An animation glitch. After a word hovers through the screen it the very bottom of it can be seen in the top left corner</p>
+        <p> The program once showed the same results multiple times in user results. This glitch might occur again </p>
+        <p> Using commas in the username will cause the system to crash since it will confuse the csv database containing the username and their scores </p>
+
         
         <form action="index.html">
             <input type="submit" value="Back">

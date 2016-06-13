@@ -115,7 +115,12 @@ if stage != 0:
         .replace("TIMEDICT", str(timeDict))\
         .replace("OUTLINE", outline)
 else:
-    print htmlDone
+    htmlTemplateFile = open("template.txt", "rU")
+    htmlTemplate = htmlTemplateFile.read()
+    htmlTemplateFile.close()
+    htmlDone = htmlDone.replace("USER", user)
+    htmlFinal = htmlTemplate.replace("BODY", htmlDone).replace("TITLE", "Stroop | BrikitaBrains")
+    print htmlFinal
     times = str(timeDict).replace(",", ";")
     numRights = str(numRightDict).replace(",", ";")
     numWrongs = str(numWrongDict).replace(",", ";")
